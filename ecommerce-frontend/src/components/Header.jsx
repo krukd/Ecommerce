@@ -29,35 +29,34 @@ function Header() {
                 <LinkContainer to="/">
                   <Nav.Link className="navbar-link active">Home</Nav.Link>
                 </LinkContainer>
-                
               </li>
               <li className="nav-item">
-              <LinkContainer to="/cart">
+                <LinkContainer to="/cart">
                   <Nav.Link className="navbar-link">Cart</Nav.Link>
                 </LinkContainer>
               </li>
               <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  New user?
-                </a>
+                <LinkContainer to="/signup">
+                  <Nav.Link
+                    className="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >New user?</Nav.Link>
+                </LinkContainer>
+                
                 <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">
-                    Login
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Signup
-                  </a>
+                <LinkContainer to="/login">
+                    <Nav.Link className="dropdown-item">Login</Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to="/signup">
+                    <Nav.Link className="dropdown-item">Signup</Nav.Link>
+                  </LinkContainer>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Logout
-                  </a>
+                  <LinkContainer to="/">
+                    <Nav.Link className="dropdown-item">Logout</Nav.Link>
+                  </LinkContainer>
                 </div>
               </li>
             </ul>
