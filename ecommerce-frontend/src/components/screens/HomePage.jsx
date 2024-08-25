@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import Footer from "../Footer";
 import { useState } from "react";
 import axios from "axios";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -29,9 +29,13 @@ function HomePage() {
       <Row>
         {products.map((product) => {
           return <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
-            <h1>{product.product_name}</h1>
+            <Card className="my-3 p-3 rounded">
+              <img src={product.image} />
+            </Card>
+            <h1>{product.productname}</h1>
             <h6>{product.category}</h6>
             <p>{product.price}</p>
+            <p>{product.productinfo}</p>
           </Col>;
         })}
       </Row>
