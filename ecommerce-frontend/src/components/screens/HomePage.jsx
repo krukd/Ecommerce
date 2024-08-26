@@ -6,33 +6,28 @@ import { useState } from "react";
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import Product from "../Product";
-
+import { listProducts } from "../../actions/productsActions";
+import { useDispatch, useSelector } from "react-redux";
 
 function HomePage() {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const productsList = useSelector((state) => state.productsList);
+  const { error, loading, products } = productsList;
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const {data} = await axios.get("/api/products/");
-        console.log(data);
-        setProducts(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchProducts();
-  }, []);
+    dispatch(listProducts());
+  }, [dispatch]);
   return (
     <Container>
       <br />
       <h1>Products</h1>
       <Row>
         {products.map((product) => {
-          return <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
-            <Product product={product}/>
-          </Col>;
+          return (
+            <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          );
         })}
       </Row>
     </Container>
