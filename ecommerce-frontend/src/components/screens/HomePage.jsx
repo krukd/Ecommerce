@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import Header from "../Header";
 import { Container } from "react-bootstrap";
-import Footer from "../Footer";
-import { useState } from "react";
-import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import Product from "../Product";
 import { listProducts } from "../../actions/productsActions";

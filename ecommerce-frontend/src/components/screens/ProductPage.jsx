@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   Row,
@@ -10,25 +10,21 @@ import {
   Container,
 } from "react-bootstrap";
 import Rating from "../Rating";
-import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetails } from "../../actions/productsActions";
+
+
 
 function ProductPage({ params }) {
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
+  const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { error, loading, product } = productDetails;
+  
 
   useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const { data } = await axios.get(`/api/product/${id}`);
-        console.log(data);
-        setProduct(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchProduct();
-  }, []);
+    dispatch(listProductDetails(id))
+  }, [dispatch, params]);
 
   const MAX_LENGTH = 200; 
 
