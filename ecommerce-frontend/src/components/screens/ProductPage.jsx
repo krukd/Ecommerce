@@ -1,11 +1,110 @@
-import React from 'react'
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Card,
+  Container,
+} from "react-bootstrap";
+import Rating from "../Rating";
+import axios from 'axios'
 
-function ProductPage() {
+function ProductPage({ params }) {
+  const { id } = useParams();
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const { data } = await axios.get(`/api/product/${id}`);
+        console.log(data);
+        setProduct(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchProduct();
+  }, []);
+
+  const MAX_LENGTH = 200; 
+
+  const truncateText = (text, maxLength) => {
+    if (text && text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
+    }
+    return text;
+  };
+
   return (
-    <div>
-      <h1>Product page</h1>
-    </div>
-  )
+    <Container>
+      <div>
+        <Link to="/" className="btn btn-dark my-3">
+          Go Back
+        </Link>
+        <Row>
+          <Col md={6}>
+            <Image src={product.image} alt={product.name} fluid />
+          </Col>
+
+          <Col md={3}>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h3>{product.productname}</h3>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Rating
+                  value={product.rating}
+                  text={`${product.numReviews} reviews`}
+                  color={"#f8e825"}
+                />
+              </ListGroup.Item>
+              <ListGroup.Item>Brand: {product.productbrand} </ListGroup.Item>
+
+              <ListGroup.Item>
+                Description: {truncateText(product.productinfo, MAX_LENGTH)}
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+
+          <Col md={3}>
+            <Card>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price:</Col>
+                    <Col>
+                      <strong>{product.price} Rs</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Status:</Col>
+                    <Col>
+                      {product.stockcount > 0 ? "In Stock" : "Out of Stock"}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Button
+                    className="btn-block btn-success"
+                    disabled={product.stockcount == 0}
+                    type="button"
+                  >
+                    Add to Cart
+                  </Button>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </Container>
+  );
 }
 
-export default ProductPage
+export default ProductPage;
